@@ -21,7 +21,7 @@ and open the template in the editor.
                         </tr>
                         <tr>
                             <td><label for="descripcion">Descripción:</label></td>
-                            <td><input id="descripcion" type="text" name="descripcion" placeholder="(Vacío)" value="<?php echo (isset($_REQUEST['descripcion']))?$_REQUEST['descripcion']:"";?>" ></td>
+                            <td><input id="descripcion" type="text" name="descripcion" placeholder="(Vacío)" value="<?php echo (isset($_REQUEST['descripcion']))?$_REQUEST['descripcion']:"";?>" disabled></td>
                         </tr>
                         <tr>
                             <td><label for="fechaBaja">Fecha de baja:</label></td>
@@ -29,11 +29,11 @@ and open the template in the editor.
                         </tr>
                         <tr>
                             <td><label for="volumenNegocio">Volumen de negocio:</label></td>
-                            <td><input id="volumenNegocio" type="text" name="volumenNegocio" placeholder="(Vacío)" value="<?php echo (isset($_REQUEST['volumennegocio']))?$_REQUEST['volumennegocio']:"";?>" ></td>
+                            <td><input id="volumenNegocio" type="text" name="volumenNegocio" placeholder="(Vacío)" value="<?php echo (isset($_REQUEST['volumennegocio']))?$_REQUEST['volumennegocio']:"";?>" disabled></td>
                         </tr>
                         
                     </table>
-                    <input id="aceptar" type="button" name="editar" value="Aceptar">
+                    <input id="aceptar" type="button" name="eliminar" value="Aceptar">
                         <a id="cancelar" href="MtoDepartamentos.php">Cancelar</a>
                 </fieldset>
             </form>

@@ -105,6 +105,8 @@ and open the template in the editor.
                     $resultadoConsulta->execute();
                     //Carga del registro en una variable
                     $registroObjeto = $resultadoConsulta->fetch(PDO::FETCH_OBJ);
+                    
+                    $aValores=[];
                     //Recorrido de todos los registros
                     while($registroObjeto!=null){
             ?>
@@ -113,10 +115,12 @@ and open the template in the editor.
                         //Recorrido del registro
                         foreach ($registroObjeto as $clave => $valor) {
                             echo "<td>$valor</td>";
+                            $aValores[$clave]=$valor;
+                            var_dump($clave);
                         }
             ?>
-                            <td class="celdaIcono"><a href="vMtoDepartamentosEditar.php"><img src="../webroot/img/editar.png"></a></td>
-                            <td class="celdaIcono"><a href="vMtoDepartamentosEliminar.php"><img src="../webroot/img/eliminar.png"></a></td>
+                            <td class="celdaIcono"><a href="vMtoDepartamentosEditar.php?codigo=<?php echo urlencode($aValores[CodDepartamento]);?>&descripcion=<?php echo urlencode($aValores[DescDepartamento]);?>&fechabaja=<?php echo urlencode($aValores[FechaBaja]);?>&volumennegocio=<?php echo urlencode($aValores[VolumenNegocio]);?>&"><img src="../webroot/img/editar.png"></a></td>
+                            <td class="celdaIcono"><a href="vMtoDepartamentosEliminar.php?codigo=<?php echo urlencode($aValores[CodDepartamento]);?>"><img src="../webroot/img/eliminar.png"></a></td>
                             <td class="celdaIcono"><a href="#"><img src="../webroot/img/ver.png"></a></td>
                         </tr>
             <?php

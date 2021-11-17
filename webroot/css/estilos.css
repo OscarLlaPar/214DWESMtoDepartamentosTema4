@@ -142,4 +142,5 @@ input:disabled{
 }
 .formularioVentana, .formularioVentana tr, .formularioVentana td{
     border: none;
+    background-color: transparent;
 }
