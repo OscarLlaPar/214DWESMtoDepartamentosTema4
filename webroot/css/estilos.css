@@ -120,7 +120,10 @@ fieldset{
     height: 50vh;
     margin-top: 10px;
 }
-#buscar{
+#aceptar, #cancelar{
+    border: none;
+}
+#buscar, #aceptar, #cancelar{
     background-color: #767BFF;
     color: white;
     font-weight: bold;
@@ -131,4 +134,12 @@ fieldset{
 }
 .celdaIcono{
     width: 40px;
+}
+input:disabled{
+    border:none;
+    background-color: dimgray;
+    border: solid lightgray 1px;
+}
+.formularioVentana, .formularioVentana tr, .formularioVentana td{
+    border: none;
 }

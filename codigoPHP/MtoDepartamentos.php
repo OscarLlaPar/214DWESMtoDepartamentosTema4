@@ -7,12 +7,12 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>OLP-DWES - Mantenimiento de Departamentos</title>
+        <title>OLP-DWES - Mantenimiento de Departamentos Tema 4</title>
         <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <header>
-            <h1>Mantenimiento de Departamentos</h1>
+            <h1>Mantenimiento de Departamentos Tema 4</h1>
             <a href="../index.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>    
             <main>
@@ -29,17 +29,8 @@ and open the template in the editor.
             //Incluir las funciones de validación
             include "../core/210322ValidacionFormularios.php";
             
-            
-            
-            
-            //Inicialización de variables
-            $entradaOK=true; //Inicialización de la variable que nos indica que todo va bien
             //Inicialización del array que contiene los mensajes de error en caso de ser necesarios
             $aErrores = [
-                'busqueda' => null
-            ];
-            //Inicialización del array que almacenará las respuestas cuando sean válidas
-            $aRespuestas = [
                 'busqueda' => null
             ];
             
@@ -47,7 +38,7 @@ and open the template in the editor.
             // Si ya se ha pulsado el boton "Enviar"
             if(!empty($_REQUEST['enviar'])){
                 //Uso de las funciones de validación, que devuelven el mensaje de error cuando corresponde.
-                $aErrores['busqueda']=validacionFormularios::comprobarAlfanumerico($_REQUEST['busqueda'],50,3,0);
+                $aErrores['busqueda']=validacionFormularios::comprobarAlfanumerico($_REQUEST['busqueda'],50,0,0);
                 //acciones correspondientes en caso de que haya algún error
                 foreach($aErrores as $categoria => $error){
                     //condición de que hay un error
@@ -66,13 +57,19 @@ and open the template in the editor.
         ?>
                 <form name="ejercicio03" action="MtoDepartamentos.php" method="post">
                         <fieldset>
-                            <legend>Departamentos: </legend>
+                            <fieldset>
+                                <legend>Gestión</legend>
+                                
+                            </fieldset>
+                            <fieldset>
+                                <legend>Búsqueda</legend>
                                     <label for="busqueda">Buscar por descripción:</label>
-                                    <input id="busqueda" type="text" name="busqueda" value="<?php echo (isset($_REQUEST['busqueda']))?$_REQUEST['busqueda']:"";?>" >
+                                    <input id="busqueda" type="text" name="busqueda" placeholder="Buscar..." value="<?php echo (isset($_REQUEST['busqueda']))?$_REQUEST['busqueda']:"";?>" >
         <?php
                 echo (!is_null($aErrores['busqueda']))?"<span>$aErrores[busqueda]</span>":"";
         ?>           
                                        <input id="buscar" type="submit" value="Buscar" name="enviar"/>        
+                            </fieldset>
                         <div class="contenedorTabla">
                                        <table>
                                            <tr>
@@ -83,11 +80,14 @@ and open the template in the editor.
                                            </tr>
                 <?php
             
-            //Si todo está bien
-            if($entradaOK){
                 //Tratamiento de los datos
                 try{
-                    $busqueda=$_REQUEST['busqueda'];
+                    if(isset($_REQUEST['busqueda'])){
+                        $busqueda=$_REQUEST['busqueda'];
+                    }
+                    else{
+                        $busqueda=null;
+                    }
                     //Establecimiento de la conexión 
                     $miDB = new PDO(HOST, USER, PASSWORD);
                     $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -107,15 +107,19 @@ and open the template in the editor.
                     $registroObjeto = $resultadoConsulta->fetch(PDO::FETCH_OBJ);
                     //Recorrido de todos los registros
                     while($registroObjeto!=null){
-                        echo "<tr>";
+            ?>
+                        <tr>
+            <?php
                         //Recorrido del registro
                         foreach ($registroObjeto as $clave => $valor) {
                             echo "<td>$valor</td>";
                         }
-                        echo "<td class=\"celdaIcono\"><img src=\"../webroot/img/editar.png\"></td>";
-                        echo "<td class=\"celdaIcono\"><img src=\"../webroot/img/eliminar.png\"></td>";
-                        echo "<td class=\"celdaIcono\"><img src=\"../webroot/img/ver.png\"></td>";
-                        echo "</tr>";
+            ?>
+                            <td class="celdaIcono"><a href="vMtoDepartamentosEditar.php"><img src="../webroot/img/editar.png"></a></td>
+                            <td class="celdaIcono"><a href="vMtoDepartamentosEliminar.php"><img src="../webroot/img/eliminar.png"></a></td>
+                            <td class="celdaIcono"><a href="#"><img src="../webroot/img/ver.png"></a></td>
+                        </tr>
+            <?php
                         //Carga de una nueva fila
                         $registroObjeto = $resultadoConsulta->fetch(PDO::FETCH_OBJ);
                     }
@@ -131,7 +135,6 @@ and open the template in the editor.
                  //Cerrar la conexión
                  unset($miDB);
                 }
-            }
               ?>
                             </table>
                         </div>
