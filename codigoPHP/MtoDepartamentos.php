@@ -59,7 +59,9 @@ and open the template in the editor.
                         <fieldset>
                             <fieldset>
                                 <legend>Gestión</legend>
-                                
+                                <a href="#"><div class="boton">
+                                    Añadir departamento
+                                    </div></a>
                             </fieldset>
                             <fieldset>
                                 <legend>Búsqueda</legend>
@@ -82,6 +84,8 @@ and open the template in the editor.
             
                 //Tratamiento de los datos
                 try{
+                   
+                    
                     if(isset($_REQUEST['busqueda'])){
                         $busqueda=$_REQUEST['busqueda'];
                     }
@@ -91,14 +95,29 @@ and open the template in the editor.
                     //Establecimiento de la conexión 
                     $miDB = new PDO(HOST, USER, PASSWORD);
                     $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    //Si se ha introduzido algo en el campo
-                    if(!is_null($busqueda)){
-                        $consultaSQLDeSeleccion = "select * from DB214DWESProyectoTema4.Departamento where DescDepartamento like '%".$busqueda."%'";
+                    
+                    
+                        
+                    
+                    if(isset($_REQUEST['eliminar'])){
+                        $oConsulta = $miDB->prepare(<<<QUERY
+                                DELETE FROM Departamento
+                                WHERE CodDepartamento = :codDepartamento
+                        QUERY);
+                        //Asignación de las respuestas en los parámetros de las consultas preparadas
+                        $aColumnas = [
+                            ':codDepartamento' => $_REQUEST['codigo']
+                        ];
+                        //Ejecución de la consulta de actualización
+                        $oConsulta->execute($aColumnas);
                     }
-                    //Si se ha dejado el cmapo vacío
+                    if(!is_null($busqueda)){
+                        $consultaSQLDeSeleccion = "select * from Departamento where DescDepartamento like '%".$busqueda."%'";
+                    }
+                    //Si se ha dejado el campo vacío
                     else{
                         //Mostrado de todas la filas
-                        $consultaSQLDeSeleccion = "select * from DB214DWESProyectoTema4.Departamento";
+                        $consultaSQLDeSeleccion = "select * from Departamento";
                     }
                     //Preparación y ejecución de las consultas creadas en la condición
                     $resultadoConsulta = $miDB->prepare($consultaSQLDeSeleccion);
@@ -116,11 +135,10 @@ and open the template in the editor.
                         foreach ($registroObjeto as $clave => $valor) {
                             echo "<td>$valor</td>";
                             $aValores[$clave]=$valor;
-                            var_dump($clave);
                         }
             ?>
-                            <td class="celdaIcono"><a href="vMtoDepartamentosEditar.php?codigo=<?php echo urlencode($aValores[CodDepartamento]);?>&descripcion=<?php echo urlencode($aValores[DescDepartamento]);?>&fechabaja=<?php echo urlencode($aValores[FechaBaja]);?>&volumennegocio=<?php echo urlencode($aValores[VolumenNegocio]);?>&"><img src="../webroot/img/editar.png"></a></td>
-                            <td class="celdaIcono"><a href="vMtoDepartamentosEliminar.php?codigo=<?php echo urlencode($aValores[CodDepartamento]);?>"><img src="../webroot/img/eliminar.png"></a></td>
+                            <td class="celdaIcono"><a href="vMtoDepartamentosEditar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/editar.png"></a></td>
+                            <td class="celdaIcono"><a href="vMtoDepartamentosEliminar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/eliminar.png"></a></td>
                             <td class="celdaIcono"><a href="#"><img src="../webroot/img/ver.png"></a></td>
                         </tr>
             <?php

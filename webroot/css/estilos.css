@@ -137,10 +137,14 @@ fieldset{
 }
 input:disabled{
     border:none;
-    background-color: dimgray;
-    border: solid lightgray 1px;
+    background-color: #020202;
+    border: solid gray 1px;
+    color: grey;
 }
 .formularioVentana, .formularioVentana tr, .formularioVentana td{
     border: none;
     background-color: transparent;
+}
+p{
+    margin: 10px;
 }
