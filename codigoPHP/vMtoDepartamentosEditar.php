@@ -17,6 +17,7 @@ and open the template in the editor.
             * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar
             * Última modificación: 18/11/2021
             */
+            //Si se pulsa cancelar se vuelve a la otra página
             if(!empty($_REQUEST['cancelar'])){
                 header('Location: MtoDepartamentos.php');
             }
@@ -37,31 +38,31 @@ and open the template in the editor.
               'descripcion' => null,
               'volumenNegocio' => null
             ];
-            // Si ya se ha pulsado el boton "Enviar"
-            if(!empty($_REQUEST['aceptar'])){
-                //Uso de las funciones de validación, que devuelven el mensaje de error cuando corresponde.
-                $aErrores['descripcion']= validacionFormularios::comprobarAlfanumerico($_REQUEST['descripcion'],50,3,1);
-                $aErrores['volumenNegocio']= validacionFormularios::comprobarFloat($_REQUEST['volumenNegocio'],PHP_FLOAT_MAX,0,1);
-                //acciones correspondientes en caso de que haya algún error
-                foreach($aErrores as $categoria => $error){
-                    //condición de que hay un error
-                    if(($error)!=null){
-                        //limpieza del campo para cuando vuelva a aparecer el formulario
-                        $_REQUEST[$categoria]="";
-                        $entradaOK=false;
-                    }
-                }
-            }
-            //Si no se ha pulsado el botón "Enviar" (es la primera vez)
-            else{
-                $entradaOK=false;
-            }
-            //Si todo está bien
             
-                try{
-                    //Establecimiento de la conexión 
-                    $miDB = new PDO(HOST, USER, PASSWORD);
-                    $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            
+            try{
+                
+                //Establecimiento de la conexión 
+                $miDB = new PDO(HOST, USER, PASSWORD);
+                $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                // Si ya se ha pulsado el boton "Enviar"
+                if(!empty($_REQUEST['aceptar'])){
+                    //Uso de las funciones de validación, que devuelven el mensaje de error cuando corresponde.
+                    $aErrores['descripcion']= validacionFormularios::comprobarAlfanumerico($_REQUEST['descripcion'],50,3,1);
+                    $aErrores['volumenNegocio']= validacionFormularios::comprobarFloat($_REQUEST['volumenNegocio'],PHP_FLOAT_MAX,0,1);
+                    //acciones correspondientes en caso de que haya algún error
+                    foreach($aErrores as $categoria => $error){
+                        //condición de que hay un error
+                        if(($error)!=null){
+                            //limpieza del campo para cuando vuelva a aparecer el formulario
+                            $_REQUEST[$categoria]="";
+                            $entradaOK=false;
+                        }
+                    }
+                    
+                    $codDepartamentoParametro = $_REQUEST['codigo'];
+                    
                     if($entradaOK){
                         //Preparación de la consulta
                         $oConsulta = $miDB->prepare(<<<QUERY
@@ -69,69 +70,52 @@ and open the template in the editor.
                                 SET DescDepartamento = :descDepartamento, VolumenNegocio = :volumenNegocio
                                 WHERE CodDepartamento = :codDepartamento
                         QUERY);
+                        
                         //Asignación de las respuestas en los parámetros de las consultas preparadas
                         $aColumnas = [
-                            ':codDepartamento' => $_REQUEST['codigo'],
+                            ':codDepartamento' => $codDepartamentoParametro,
                             ':descDepartamento' => $_REQUEST['descripcion'],
                             ':volumenNegocio' => $_REQUEST['volumenNegocio']
                         ];
+                        var_dump($aColumnas);
                         //Ejecución de la consulta de actualización
-                        $oConsulta->execute($aColumnas);
-                        header('Location: MtoDepartamentos.php');
-                    }
-                    else{
-                        //Preparación y ejecución de las consultas creadas en la condición
-                        $oConsulta = $miDB->prepare(<<<QUERY
-                                    SELECT * FROM Departamento
-                                    WHERE CodDepartamento = :codDepartamento
-                            QUERY);
-                        $aColumnas = [
-                                ':codDepartamento' => $_REQUEST['codDepartamentoEnCurso']
-                        ];
-                        $oConsulta->execute($aColumnas);
-                        //Carga del registro en una variable
-                        $registroObjeto = $oConsulta->fetch(PDO::FETCH_OBJ);
-
-                        $aValores=[];
-                        //Recorrido del registro
-                        foreach ($registroObjeto as $clave => $valor) {
-                            $aValores[$clave]=$valor;
+                        if($oConsulta->execute($aColumnas)){
+                            header('Location: MtoDepartamentos.php');
                         }
-                    
-                ?>
-        <div>
-            <form action="vMtoDepartamentosEditar.php" method="post">
-                <fieldset>
-                    <table class="formularioVentana">
-                        <tr>
-                            <td><label for="codigo">Código:</label></td>
-                            <td><input id="codigo" type="text" name="codigo" placeholder="(Vacío)" value="<?php echo $aValores['CodDepartamento'];?>" disabled></td>
-                        </tr>
-                        <tr>
-                            <td><label for="descripcion">Descripción:</label></td>
-                            <td><input id="descripcion" type="text" name="descripcion" placeholder="(Vacío)" value="<?php echo $aValores['DescDepartamento'];?>" ></td>
-                        </tr>
-                        <tr>
-                            <td><label for="fechaBaja">Fecha de baja:</label></td>
-                            <td><input id="fechaBaja" type="text" name="fechaBaja" placeholder="(Vacío)" value="<?php echo $aValores['FechaBaja'];?>" disabled></td>
-                        </tr>
-                        <tr>
-                            <td><label for="volumenNegocio">Volumen de negocio:</label></td>
-                            <td><input id="volumenNegocio" type="text" name="volumenNegocio" placeholder="(Vacío)" value="<?php echo $aValores['VolumenNegocio'];?>" ></td>
-                        </tr>
-                        
-                    </table>
-                    <input id="aceptar" type="submit" name="aceptar" value="Aceptar">
-                    <input id="cancelar" type="submit" name="cancelar" value="Cancelar">
-                </fieldset>
-            </form>
-        </div>
-        <?php
+
                     }
+                }
+                else{
+                    $entradaOK=false;
+                    $codDepartamentoParametro =$_REQUEST['codDepartamentoEnCurso'];
+                    
                     
                     
                 }
+                if(!$entradaOK){
+                    //Preparación y ejecución de las consultas creadas en la condición
+                    $oConsulta = $miDB->prepare(<<<QUERY
+                                SELECT * FROM Departamento
+                                WHERE CodDepartamento = :codDepartamento
+                        QUERY);
+                    
+                    $aColumnas = [
+                            ':codDepartamento' => $codDepartamentoParametro
+                    ];
+                    
+                    $oConsulta->execute($aColumnas);
+                    //Carga del registro en una variable
+                    $registroObjeto = $oConsulta->fetch(PDO::FETCH_OBJ);
+
+                    $aValores=[];
+                    //Recorrido del registro
+                    foreach ($registroObjeto as $clave => $valor) {
+                        $aValores[$clave]=$valor;
+                    }
+                }
                 
+                
+            }
                 //Gestión de errores relacionados con la base de datos
                 catch(PDOException $miExceptionPDO){
                     echo "Error: ".$miExceptionPDO->getMessage();
@@ -142,6 +126,41 @@ and open the template in the editor.
                  //Cerrar la conexión
                  unset($miDB);
                 }
+            
         ?>
+         <div>
+            <form action="vMtoDepartamentosEditar.php" method="post">
+                <fieldset>
+                    <table class="formularioVentana">
+                        <tr>
+                            <td><label for="codigo">Código:</label></td>
+                            <td><input id="codigo" type="text" name="codigo" placeholder="(Vacío)" value="<?php echo $aValores['CodDepartamento'];?>" readonly="readonly"></td>
+        
+                        </tr>
+                        <tr>
+                            <td><label for="descripcion">Descripción:</label></td>
+                            <td><input id="descripcion" type="text" name="descripcion" placeholder="(Vacío)" value="<?php echo $aValores['DescDepartamento'];?>" ></td>
+        <?php
+                echo (!is_null($aErrores['descripcion']))?"<td>$aErrores[descripcion]</td>":"";
+        ?>   
+                        </tr>
+                        <tr>
+                            <td><label for="fechaBaja">Fecha de baja:</label></td>
+                            <td><input id="fechaBaja" type="text" name="fechaBaja" placeholder="(Vacío)" value="<?php echo $aValores['FechaBaja'];?>" readonly="readonly"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="volumenNegocio">Volumen de negocio:</label></td>
+                            <td><input id="volumenNegocio" type="text" name="volumenNegocio" placeholder="(Vacío)" value="<?php echo $aValores['VolumenNegocio'];?>" ></td>
+        <?php
+                echo (!is_null($aErrores['volumenNegocio']))?"<td>$aErrores[volumenNegocio]</td>":"";
+        ?>
+                        </tr>
+                        
+                    </table>
+                    <input id="aceptar"  class="boton" type="submit" name="aceptar" value="Aceptar">
+                    <input id="cancelar"  class="boton" type="submit" name="cancelar" value="Cancelar">
+                </fieldset>
+            </form>
+        </div>
     </body>
 </html>

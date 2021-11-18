@@ -55,11 +55,11 @@ and open the template in the editor.
                 $entradaOK=false;
             }
         ?>
-                <form name="ejercicio03" action="MtoDepartamentos.php" method="post">
+                <form name="ejercicio09" action="MtoDepartamentos.php" method="post">
                         <fieldset>
                             <fieldset>
                                 <legend>Gestión</legend>
-                                <a href="#"><div class="boton">
+                                <a href="MtoDepartamentosNuevo.php"><div class="boton">
                                     Añadir departamento
                                     </div></a>
                             </fieldset>
@@ -70,7 +70,7 @@ and open the template in the editor.
         <?php
                 echo (!is_null($aErrores['busqueda']))?"<span>$aErrores[busqueda]</span>":"";
         ?>           
-                                       <input id="buscar" type="submit" value="Buscar" name="enviar"/>        
+                                       <input id="buscar"  class="boton" type="submit" value="Buscar" name="enviar"/>        
                             </fieldset>
                         <div class="contenedorTabla">
                                        <table>
@@ -99,18 +99,6 @@ and open the template in the editor.
                     
                         
                     
-                    if(isset($_REQUEST['eliminar'])){
-                        $oConsulta = $miDB->prepare(<<<QUERY
-                                DELETE FROM Departamento
-                                WHERE CodDepartamento = :codDepartamento
-                        QUERY);
-                        //Asignación de las respuestas en los parámetros de las consultas preparadas
-                        $aColumnas = [
-                            ':codDepartamento' => $_REQUEST['codigo']
-                        ];
-                        //Ejecución de la consulta de actualización
-                        $oConsulta->execute($aColumnas);
-                    }
                     if(!is_null($busqueda)){
                         $consultaSQLDeSeleccion = "select * from Departamento where DescDepartamento like '%".$busqueda."%'";
                     }

@@ -48,6 +48,11 @@ a{
 img{
     width: 25px;
     height: 25px;
+    transition: all 0.4s;
+}
+img:hover{
+    /*filter:invert(50%);*/
+    filter: invert(0.4) sepia(1) hue-rotate(-170deg) saturate(500%);
 }
 footer{
     background-color: black;
@@ -86,6 +91,9 @@ input{
     border:none;
     border-bottom: solid magenta 1px;
 }
+input[type="text"]{
+    width: 250px;
+}
 table{
     width:60vw;
     font-size: 16px;
@@ -123,19 +131,23 @@ fieldset{
 #aceptar, #cancelar{
     border: none;
 }
-#buscar, #aceptar, #cancelar{
+.boton{
     background-color: #767BFF;
     color: white;
     font-weight: bold;
     font-size: 20px;
     border: none;
     border: solid #00FFDD 1px;
-    padding: 2px;
+    padding: 10px;
+    transition: all 0.5s;
+}
+.boton:hover{
+    background-color: purple;
 }
 .celdaIcono{
     width: 40px;
 }
-input:disabled{
+input[readonly="readonly"]{
     border:none;
     background-color: #020202;
     border: solid gray 1px;
