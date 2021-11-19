@@ -48,11 +48,6 @@ a{
 img{
     width: 25px;
     height: 25px;
-    transition: all 0.4s;
-}
-img:hover{
-    /*filter:invert(50%);*/
-    filter: invert(0.4) sepia(1) hue-rotate(-170deg) saturate(500%);
 }
 footer{
     background-color: black;
@@ -93,6 +88,8 @@ input{
 }
 input[type="text"]{
     width: 250px;
+    padding: 5px;
+    margin: 0 5px;
 }
 table{
     width:60vw;
@@ -133,6 +130,7 @@ fieldset{
 }
 .boton{
     background-color: #767BFF;
+    display: inline-block;
     color: white;
     font-weight: bold;
     font-size: 20px;
@@ -159,4 +157,12 @@ input[readonly="readonly"]{
 }
 p{
     margin: 10px;
+}
+.noDisponible{
+    background-color: dimgray;
+    color: lightgrey;
+    border: solid lightgrey 1px;
+}
+.noDisponible:hover{
+    background-color: dimgray;
 }

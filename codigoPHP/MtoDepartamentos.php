@@ -62,6 +62,12 @@ and open the template in the editor.
                                 <a href="MtoDepartamentosNuevo.php"><div class="boton">
                                     Añadir departamento
                                     </div></a>
+                                <div class="boton noDisponible">
+                                    Importar
+                                    </div>
+                                <div class="boton noDisponible">
+                                    Exportar
+                                    </div>
                             </fieldset>
                             <fieldset>
                                 <legend>Búsqueda</legend>
