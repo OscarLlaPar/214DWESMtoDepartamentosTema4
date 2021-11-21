@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>OLP-DWES - Editar departamento</title>
+        <title>OLP-DWES - Mostrar departamento</title>
         <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
@@ -18,31 +18,12 @@ and open the template in the editor.
             * Última modificación: 18/11/2021
             */
             //Si se pulsa cancelar se vuelve a la otra página
-            if(!empty($_REQUEST['cancelar'])){
-                header('Location: MtoDepartamentos.php');
-            }
             //Incluir configuración de la base de datos
             include "../config/confDB.php";
             try{
                 //Establecimiento de la conexión 
                 $miDB = new PDO(HOST, USER, PASSWORD);
                 $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-               //Preparación y ejecución de las consultas creadas en la condición
-                if(!empty($_REQUEST['aceptar'])){
-                    $oConsulta = $miDB->prepare(<<<QUERY
-                                DELETE FROM Departamento
-                                WHERE CodDepartamento = :codDepartamento
-                        QUERY);
-                        //Asignación de las respuestas en los parámetros de las consultas preparadas
-                        $aColumnas = [
-                            ':codDepartamento' => $_REQUEST['codigo']
-                        ];
-                        //Ejecución de la consulta de actualización
-                        if($oConsulta->execute($aColumnas)){
-                            header('Location: MtoDepartamentos.php');
-                        }
-                        
-                }
                 $oConsulta = $miDB->prepare(<<<QUERY
                             SELECT * FROM Departamento
                             WHERE CodDepartamento = :codDepartamento
@@ -72,10 +53,10 @@ and open the template in the editor.
             }
         ?>
         <header>
-            <h1>Eliminar departamento</h1>
+            <h1>Mostrar departamento</h1>
         </header> 
         <div>
-            <form action="vMtoDepartamentosEliminar.php" method="post">
+            <form action="MtoDepartamentos.php" method="post">
                 <fieldset>
                     <table class="formularioVentana">
                         <tr>
@@ -96,9 +77,7 @@ and open the template in the editor.
                         </tr>
                         
                     </table>
-                    <p>¿Estás seguro?</p>
-                    <input id="aceptar"  class="boton" type="submit" name="aceptar" value="Aceptar">
-                    <input id="cancelar"  class="boton" type="submit" name="cancelar" value="Cancelar">
+                    <input id="volver"  class="boton" type="submit" name="volver" value="Volver">
                 </fieldset>
             </form>
         </div>

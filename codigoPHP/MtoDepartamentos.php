@@ -127,7 +127,7 @@ and open the template in the editor.
             ?>
                             <td class="celdaIcono"><a href="vMtoDepartamentosEditar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/editar.png"></a></td>
                             <td class="celdaIcono"><a href="vMtoDepartamentosEliminar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/eliminar.png"></a></td>
-                            <td class="celdaIcono"><a href="#"><img src="../webroot/img/ver.png"></a></td>
+                            <td class="celdaIcono"><a href="DepartamentosMostrar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/ver.png"></a></td>
                         </tr>
             <?php
                         //Carga de una nueva fila
