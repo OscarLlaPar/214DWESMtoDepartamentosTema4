@@ -45,34 +45,35 @@ and open the template in the editor.
                 $aErrores['codigo']= validacionFormularios::comprobarAlfabetico($_REQUEST['codigo'],3,3,1);
                 //Validación de clave primaria (solo en caso de que la función la confirme como válida)
                 if($aErrores['codigo'] == null){
-                    try{
-                        //Establecimiento de la conexión
-                        $miDB = new PDO(HOST, USER, PASSWORD);
-                        
-                        $miDB -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                        //Elaboración y preparación de la consulta
-                        $consulta = ('SELECT * FROM Departamento');
-                        $resultadoConsulta = $miDB->prepare($consulta);
-                        //Ejecución de la consulta
-                        $resultadoConsulta->execute();
-                        //Carga de una fila del resultado en una variable
-                        $registroConsulta = $resultadoConsulta->fetchObject();
-                        //Recorrido de todos los registros (filas)
-                        while($registroConsulta){ 
-                            //Si se detecta una clave que coincida con la respuesta, se crea un mensaje de error
-                            if($registroConsulta->CodDepartamento == strtoupper($_REQUEST['codigo'])){ 
-                                $aErrores['codigo']= "Código duplicado."; 
-                            }
-                            //Carga de nueva fila
-                            $registroConsulta = $resultadoConsulta->fetchObject();  
+                    if(strtoupper($_REQUEST['codigo'])!=$_REQUEST['codigo']){
+                        $aErrores['codigo']= "El código debe estar en mayúsculas."; 
+                    }
+                    else{
+                        try{
+                            //Establecimiento de la conexión
+                            $miDB = new PDO(HOST, USER, PASSWORD);
+
+                            $miDB -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                            //Elaboración y preparación de la consulta
+                            $consulta = 'SELECT * FROM Departamento WHERE CodDepartamento = '.$_REQUEST['codigo']."'";
+                            $resultadoConsulta = $miDB->prepare($consulta);
+                            //Ejecución de la consulta
+                            $resultadoConsulta->execute();
+                            //Carga de una fila del resultado en una variable
+                            $registroConsulta = $resultadoConsulta->fetchObject();
+                                if(!is_null($registroConsulta)){ 
+                                    $aErrores['codigo']= "Código duplicado."; 
+                                }
+                                //Carga de nueva fila
+                                $registroConsulta = $resultadoConsulta->fetchObject();  
+                        //Muestra de posibles errores    
+                        }catch(PDOException $miExceptionPDO){
+                            echo "Error: ".$miExceptionPDO->getMessage();
+                             echo "<br>";
+                            echo "Código de error: ".$miExceptionPDO->getCode();
+                        }finally{
+                            unset($miDB);
                         }
-                    //Muestra de posibles errores    
-                    }catch(PDOException $miExceptionPDO){
-                        echo "Error: ".$miExceptionPDO->getMessage();
-                         echo "<br>";
-                        echo "Código de error: ".$miExceptionPDO->getCode();
-                    }finally{
-                        unset($miDB);
                     }
                 }
                 $aErrores['descripcion']= validacionFormularios::comprobarAlfanumerico($_REQUEST['descripcion'],50,3,1);
@@ -135,6 +136,9 @@ and open the template in the editor.
                
             }
               ?>
+        <header>
+            <h1>Añadir departamento</h1>
+        </header> 
         <div>
             <form action="MtoDepartamentosNuevo.php" method="post">
                 <fieldset>

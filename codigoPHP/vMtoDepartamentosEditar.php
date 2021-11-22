@@ -41,11 +41,7 @@ and open the template in the editor.
             
             
             
-            try{
-                
-                //Establecimiento de la conexión 
-                $miDB = new PDO(HOST, USER, PASSWORD);
-                $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+           
                 // Si ya se ha pulsado el boton "Enviar"
                 if(!empty($_REQUEST['aceptar'])){
                     //Uso de las funciones de validación, que devuelven el mensaje de error cuando corresponde.
@@ -64,35 +60,56 @@ and open the template in the editor.
                     $codDepartamentoParametro = $_REQUEST['codigo'];
                     
                     if($entradaOK){
-                        //Preparación de la consulta
-                        $oConsulta = $miDB->prepare(<<<QUERY
-                                UPDATE Departamento
-                                SET DescDepartamento = :descDepartamento, VolumenNegocio = :volumenNegocio
-                                WHERE CodDepartamento = :codDepartamento
-                        QUERY);
-                        
-                        //Asignación de las respuestas en los parámetros de las consultas preparadas
-                        $aColumnas = [
-                            ':codDepartamento' => $codDepartamentoParametro,
-                            ':descDepartamento' => $_REQUEST['descripcion'],
-                            ':volumenNegocio' => $_REQUEST['volumenNegocio']
-                        ];
-                        var_dump($aColumnas);
-                        //Ejecución de la consulta de actualización
-                        if($oConsulta->execute($aColumnas)){
-                            header('Location: MtoDepartamentos.php');
+                        try{
+                
+                            //Establecimiento de la conexión 
+                            $miDB = new PDO(HOST, USER, PASSWORD);
+                            $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                            //Preparación de la consulta
+                            $oConsulta = $miDB->prepare(<<<QUERY
+                                    UPDATE Departamento
+                                    SET DescDepartamento = :descDepartamento, VolumenNegocio = :volumenNegocio
+                                    WHERE CodDepartamento = :codDepartamento
+                            QUERY);
+
+                            //Asignación de las respuestas en los parámetros de las consultas preparadas
+                            $aColumnas = [
+                                ':codDepartamento' => $codDepartamentoParametro,
+                                ':descDepartamento' => $_REQUEST['descripcion'],
+                                ':volumenNegocio' => $_REQUEST['volumenNegocio']
+                            ];
+                            var_dump($aColumnas);
+                            //Ejecución de la consulta de actualización
+                            if($oConsulta->execute($aColumnas)){
+                                header('Location: MtoDepartamentos.php');
+                            }
+                        }
+                        //Gestión de errores relacionados con la base de datos
+                        catch(PDOException $miExceptionPDO){
+                            echo "Error: ".$miExceptionPDO->getMessage();
+                            echo "<br>";
+                            echo "Código de error: ".$miExceptionPDO->getCode();
+                        }
+                        finally{
+                         //Cerrar la conexión
+                         unset($miDB);
                         }
 
                     }
                 }
                 else{
+                    
                     $entradaOK=false;
                     $codDepartamentoParametro =$_REQUEST['codDepartamentoEnCurso'];
                     
                     
                     
                 }
-                if(!$entradaOK){
+                try{
+                
+                //Establecimiento de la conexión 
+                $miDB = new PDO(HOST, USER, PASSWORD);
+                $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     //Preparación y ejecución de las consultas creadas en la condición
                     $oConsulta = $miDB->prepare(<<<QUERY
                                 SELECT * FROM Departamento
@@ -112,10 +129,10 @@ and open the template in the editor.
                     foreach ($registroObjeto as $clave => $valor) {
                         $aValores[$clave]=$valor;
                     }
+                
+                
+                
                 }
-                
-                
-            }
                 //Gestión de errores relacionados con la base de datos
                 catch(PDOException $miExceptionPDO){
                     echo "Error: ".$miExceptionPDO->getMessage();
@@ -128,7 +145,10 @@ and open the template in the editor.
                 }
             
         ?>
-         <div>
+        <header>
+            <h1>Editar departamento</h1>
+        </header> 
+        <div>
             <form action="vMtoDepartamentosEditar.php" method="post">
                 <fieldset>
                     <table class="formularioVentana">
