@@ -61,11 +61,9 @@ and open the template in the editor.
                             $resultadoConsulta->execute();
                             //Carga de una fila del resultado en una variable
                             $registroConsulta = $resultadoConsulta->fetchObject();
-                                if(!is_null($registroConsulta)){ 
-                                    $aErrores['codigo']= "Código duplicado."; 
-                                }
-                                //Carga de nueva fila
-                                $registroConsulta = $resultadoConsulta->fetchObject();  
+                            if(!is_null($registroConsulta)){ 
+                                $aErrores['codigo']= "Código duplicado."; 
+                            }
                         //Muestra de posibles errores    
                         }catch(PDOException $miExceptionPDO){
                             echo "Error: ".$miExceptionPDO->getMessage();
@@ -140,7 +138,7 @@ and open the template in the editor.
             <h1>Añadir departamento</h1>
         </header> 
         <div>
-            <form action="MtoDepartamentosNuevo.php" method="post">
+            <form action="DepartamentosNuevo.php" method="post">
                 <fieldset>
                     <table class="formularioVentana">
                         <tr>

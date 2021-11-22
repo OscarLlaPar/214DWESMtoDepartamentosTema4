@@ -59,7 +59,7 @@ and open the template in the editor.
                         <fieldset>
                             <fieldset>
                                 <legend>Gestión</legend>
-                                <a href="MtoDepartamentosNuevo.php"><div class="boton">
+                                <a href="DepartamentosNuevo.php"><div class="boton">
                                     Añadir departamento
                                     </div></a>
                                 <div class="boton noDisponible">
@@ -131,8 +131,8 @@ and open the template in the editor.
                             $aValores[$clave]=$valor;
                         }
             ?>
-                            <td class="celdaIcono"><a href="vMtoDepartamentosEditar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/editar.png"></a></td>
-                            <td class="celdaIcono"><a href="vMtoDepartamentosEliminar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/eliminar.png"></a></td>
+                            <td class="celdaIcono"><a href="DepartamentosEditar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/editar.png"></a></td>
+                            <td class="celdaIcono"><a href="DepartamentosEliminar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/eliminar.png"></a></td>
                             <td class="celdaIcono"><a href="DepartamentosMostrar.php?codDepartamentoEnCurso=<?php echo urlencode($aValores['CodDepartamento']);?>"><img src="../webroot/img/ver.png"></a></td>
                         </tr>
             <?php

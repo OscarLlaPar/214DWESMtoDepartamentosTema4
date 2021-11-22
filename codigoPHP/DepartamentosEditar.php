@@ -149,7 +149,7 @@ and open the template in the editor.
             <h1>Editar departamento</h1>
         </header> 
         <div>
-            <form action="vMtoDepartamentosEditar.php" method="post">
+            <form action="DepartamentosEditar.php" method="post">
                 <fieldset>
                     <table class="formularioVentana">
                         <tr>

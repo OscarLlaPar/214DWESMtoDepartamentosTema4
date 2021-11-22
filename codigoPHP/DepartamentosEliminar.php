@@ -75,7 +75,7 @@ and open the template in the editor.
             <h1>Eliminar departamento</h1>
         </header> 
         <div>
-            <form action="vMtoDepartamentosEliminar.php" method="post">
+            <form action="DepartamentosEliminar.php" method="post">
                 <fieldset>
                     <table class="formularioVentana">
                         <tr>
