@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>OLP-DWES - Añadir departamento</title>
-        <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
-    </head>
-    <body>
+
         <?php
             /*
             * Ejercicio 09 - Mantenimiento de Departamentos - Añadir departamento
@@ -55,7 +43,7 @@ and open the template in the editor.
 
                             $miDB -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                             //Elaboración y preparación de la consulta
-                            $consulta = 'SELECT * FROM Departamento WHERE CodDepartamento = '.$_REQUEST['codigo']."'";
+                            $consulta = "SELECT * FROM Departamento WHERE CodDepartamento = ".$_REQUEST[codigo]."'";
                             $resultadoConsulta = $miDB->prepare($consulta);
                             //Ejecución de la consulta
                             $resultadoConsulta->execute();
@@ -134,6 +122,14 @@ and open the template in the editor.
                
             }
               ?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>OLP-DWES - Añadir departamento</title>
+        <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
         <header>
             <h1>Añadir departamento</h1>
         </header> 

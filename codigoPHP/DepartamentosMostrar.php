@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>OLP-DWES - Mostrar departamento</title>
-        <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
-    </head>
-    <body>
+
         <?php
             /*
             * Ejercicio 09 - Mantenimiento de Departamentos - Eliminar departamento
@@ -52,6 +40,14 @@ and open the template in the editor.
              unset($miDB);
             }
         ?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>OLP-DWES - Mostrar departamento</title>
+        <link href="../webroot/css/estilos.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
         <header>
             <h1>Mostrar departamento</h1>
         </header> 
