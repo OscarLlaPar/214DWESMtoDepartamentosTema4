@@ -43,13 +43,15 @@
 
                             $miDB -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                             //Elaboración y preparación de la consulta
-                            $consulta = "SELECT * FROM Departamento WHERE CodDepartamento = ".$_REQUEST[codigo]."'";
+                            $consulta=<<<QUERY
+                                SELECT * FROM Departamento WHERE CodDepartamento = '$_REQUEST[codigo]'
+                                QUERY;
                             $resultadoConsulta = $miDB->prepare($consulta);
                             //Ejecución de la consulta
                             $resultadoConsulta->execute();
                             //Carga de una fila del resultado en una variable
                             $registroConsulta = $resultadoConsulta->fetchObject();
-                            if(!is_null($registroConsulta)){ 
+                            if($registroConsulta){ 
                                 $aErrores['codigo']= "Código duplicado."; 
                             }
                         //Muestra de posibles errores    
