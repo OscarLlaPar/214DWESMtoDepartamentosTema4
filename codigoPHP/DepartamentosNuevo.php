@@ -1,5 +1,4 @@
-
-        <?php
+ <?php
             /*
             * Ejercicio 09 - Mantenimiento de Departamentos - Añadir departamento
             * @author Óscar Llamas Parra - oscar.llapar@educa.jcyl.es - https://github.com/OscarLlaPar

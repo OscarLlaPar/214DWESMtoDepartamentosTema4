@@ -13,7 +13,7 @@ and open the template in the editor.
     <body>
         <header>
             <h1>Mantenimiento de Departamentos Tema 4</h1>
-            <a href="../index.php"><div class="cuadro" id="arriba">&#60;</div></a>
+            <a href="../indexMtoDepartamentosTema4.php"><div class="cuadro" id="arriba">&#60;</div></a>
         </header>    
             <main>
                     
@@ -160,8 +160,8 @@ and open the template in the editor.
         
         <footer>
             <p>
-                Óscar Llamas Parra &nbsp;
-                <a href="https://github.com/OscarLlaPar/" target="__blank"><img src="../webroot/img/github.png" alt="Github"></img></a>
+                <a href="https://daw214.ieslossauces.es/">Óscar Llamas Parra</a>
+                <a href="https://github.com/OscarLlaPar/214DWESMtoDepartamentosTema4" target="__blank"><img src="webroot/img/github.png" alt="Github"></img></a>
             </p>
             <p>
                 DAW 2
