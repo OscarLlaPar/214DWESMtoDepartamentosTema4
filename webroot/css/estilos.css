@@ -61,6 +61,13 @@ footer{
     text-align: left;
     border-top: solid purple 2px;
 }
+footer p a{
+    color: #00FFDD;
+    transition: all 0.2s;
+}
+footer p a:hover{
+    color: purple;
+}
 .cuadro{
     background-color: #00FFDD;
     position: absolute;
